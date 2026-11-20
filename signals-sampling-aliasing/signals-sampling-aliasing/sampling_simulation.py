@@ -14,8 +14,10 @@ This script simulates the Nyquist-Shannon sampling theorem end to end:
   Exp 6  Reconstruction error vs. sampling rate (sinc / linear / zero-order hold)
 
 Run:
-    python sampling_simulation.py                 # outputs go to ./output
+    python sampling_simulation.py                 # graphs open one by one; outputs go to ./output
     python sampling_simulation.py --outdir results
+
+Each graph opens in its own window. Close the window to see the next graph.
 
 Outputs:
     <outdir>/figures/*.png      all figures used in the report and slides
@@ -28,9 +30,6 @@ import csv
 import json
 from pathlib import Path
 
-import matplotlib
-
-matplotlib.use("Agg")  # no display needed
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import signal as sps
@@ -115,11 +114,13 @@ def sampling_status(fs):
 
 
 def save(fig, outdir, name):
+    """Save the figure as PNG and show it on screen (close the window for the next graph)."""
     path = Path(outdir) / "figures" / name
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path)
-    plt.close(fig)
     print(f"  saved {path}")
+    plt.show()
+    plt.close(fig)
 
 
 # ----------------------------------------------------------------------------
